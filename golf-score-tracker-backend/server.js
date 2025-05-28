@@ -15,7 +15,7 @@ const app = express();
 
 //  Enable CORS for frontend
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://pin-point-nu.vercel.app/',
   credentials: true
 }));
 
