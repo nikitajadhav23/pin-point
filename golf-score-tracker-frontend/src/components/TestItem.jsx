@@ -1,37 +1,53 @@
 import React from 'react';
+import {
+  Paper,
+  Typography,
+  Box,
+  TextField
+} from '@mui/material';
 
 const TestItem = ({ test, onScoreChange }) => {
-  const dueDate = test.dueDate ? new Date(test.dueDate).toLocaleDateString() : 'No due date';
+  const dueDate = test.dueDate
+    ? new Date(test.dueDate).toLocaleDateString()
+    : 'No due date';
+  const quantity = test.quantity || 0;
+  const scores = Array.isArray(test.score) ? test.score : Array(quantity).fill('');
+
+  const handleScoreChange = (index, value) => {
+    const newScores = [...scores];
+    newScores[index] = value;
+    onScoreChange(test._id, newScores);
+  };
+
   return (
-    <div 
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        border: '1px solid #ddd',
-        padding: '10px',
-        marginBottom: '10px',
-        borderRadius: '8px'
-      }}
-    >
-      <div>
-        <strong>{test.name}</strong>
-        <div style={{ fontSize: '0.85rem', color: '#555' }}>
-          Due: {dueDate}
-        </div>
-      </div>
-      <input
-        type="number"
-        value={test.score}
-        onChange={(e) => onScoreChange(test._id, e.target.value)}
-        style={{ width: '60px', marginRight: '10px' }}
-      />
-      {test.completed ? (
-        <span style={{ color: 'green', fontWeight: 'bold' }}>✔ Completed</span>
-      ) : (
-        <span style={{ color: '#999' }}>Not done</span>
-      )}
-    </div>
+    <Paper elevation={2} sx={{ p: 2, mb: 2, borderRadius: 2 }}>
+      <Typography variant="h6">{test.name}</Typography>
+
+      <Typography variant="body2" color="text.secondary">
+        Due: {dueDate}
+      </Typography>
+
+      <Box display="flex" gap={2} mt={1}>
+        {Array.from({ length: quantity }).map((_, i) => (
+          <TextField
+            key={i}
+            type="number"
+            value={scores[i] || ''}
+            onChange={(e) => handleScoreChange(i, e.target.value)}
+            size="small"
+            inputProps={{ min: 0 }}
+            sx={{ width: 80 }}
+          />
+        ))}
+      </Box>
+
+      <Typography
+        variant="body2"
+        sx={{ mt: 1, color: test.completed ? 'green' : 'text.secondary' }}
+      >
+        {test.completed ? '✔ Completed' : 'Not done'}
+      </Typography>
+    </Paper>
   );
 };
 

@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+  Box
+} from '@mui/material';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +30,6 @@ function Login() {
       localStorage.setItem('role', role);
 
       navigate(role === 'coach' ? '/coach' : '/dashboard');
-
     } catch (err) {
       console.error(err);
       setError('Login failed. Please check your credentials.');
@@ -29,36 +37,53 @@ function Login() {
   };
 
   return (
-    <div className="container">
-      <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <Container maxWidth="xs" sx={{ mt: 6 }}>
+      <Typography variant="h4" gutterBottom align="center">
+        Login
+      </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
       <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br /><br />
+        <Box display="flex" flexDirection="column" gap={2}>
+          <TextField
+            type="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            fullWidth
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br /><br />
+          <TextField
+            type="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+          />
 
-        <button type="submit">Login</button>
+          <Button type="submit" variant="contained" fullWidth>
+            Login
+          </Button>
+        </Box>
       </form>
 
-      <p style={{ marginTop: '1rem' }}>
-        Don't have an account? <Link to="/signup">Sign up here</Link>
-      </p>
-    </div>
+      <Typography variant="body2" align="center" sx={{ mt: 3 }}>
+        Don&apos;t have an account?{' '}
+        <Link to="/signup" style={{ textDecoration: 'none', color: '#2e7d32' }}>
+          Sign up here
+        </Link>
+      </Typography>
+    </Container>
   );
 }
 
 export default Login;
+
 

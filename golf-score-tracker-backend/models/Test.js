@@ -5,7 +5,8 @@ const testSchema = new mongoose.Schema({
     name: { type: String, required: true },
     score: { type: String, default: "" },
     completed: { type: Boolean, default: false },
-    dueDate: {type:Date}
+    dueDate: {type:Date},
+    quantity: {type: Number, default: 1}
 });
 
 module.exports = mongoose.model('Test', testSchema);

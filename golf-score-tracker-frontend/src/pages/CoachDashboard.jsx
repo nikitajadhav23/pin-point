@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api';
+import { Container, Typography, Button, Stack, Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../api';
 
 function CoachDashboard() {
   const [allPlayers, setAllPlayers] = useState([]);
@@ -47,30 +48,43 @@ function CoachDashboard() {
   };
 
   return (
-    <div className="container">
-      <h1>Coach Dashboard</h1>
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Coach Dashboard
+      </Typography>
 
-      {/* Summary Line */}
-      <p>
+      <Typography variant="body1" sx={{ mb: 3 }}>
         You have <strong>{teams.length}</strong> team{teams.length !== 1 && 's'},
         <strong> {allPlayers.length}</strong> player{allPlayers.length !== 1 && 's'}, and
         <strong> {allTests.length}</strong> test{allTests.length !== 1 && 's'} assigned.
-      </p>
+      </Typography>
 
-      <div style={{ marginBottom: '1.5rem' }}>
-        <Link to="/coach/teams" style={{ marginRight: '1rem' }}>View Teams</Link>
-        <Link to="/coach/tests">Manage Tests</Link>
-      </div>
+      <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+        <Button component={Link} to="/coach/teams" variant="contained">
+          View Teams
+        </Button>
+        <Button component={Link} to="/coach/tests" variant="contained">
+          Manage Tests
+        </Button>
+      </Stack>
 
-      <Link to="/">← Back to Home</Link>
-      <button onClick={handleLogout} style={{ marginTop: '1rem' }}>
-        Logout
-      </button>
-    </div>
+      <Box sx={{ mt: 2 }}>
+        <Button component={Link} to="/" variant="text">
+          ← Back to Home
+        </Button>
+      </Box>
+
+      <Box sx={{ mt: 2 }}>
+        <Button onClick={handleLogout} variant="outlined" color="error">
+          Logout
+        </Button>
+      </Box>
+    </Container>
   );
 }
 
 export default CoachDashboard;
+
 
 
 

@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { useNavigate, Link } from 'react-router-dom';
 
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
+} from '@mui/material';
+
 function CreateTeamPage() {
   const [teamName, setTeamName] = useState('');
   const [allPlayers, setAllPlayers] = useState([]);
@@ -55,44 +66,55 @@ function CreateTeamPage() {
   };
 
   return (
-    <div className="container">
-      <h2>Create a New Team</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Team Name"
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Create a New Team
+      </Typography>
+
+      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <TextField
+          label="Team Name"
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
           required
+          fullWidth
         />
-        <div style={{ margin: '1rem 0' }}>
+
+        <Typography variant="h6">Select Players</Typography>
+        <FormGroup>
           {allPlayers.map((player) => (
-            <label key={player._id} style={{ display: 'block', marginBottom: '0.5rem' }}>
-              <input
-                type="checkbox"
-                value={player.name}
-                checked={selectedPlayers.includes(player.name)}
-                onChange={() => togglePlayer(player.name)}
-              />
-              {player.name}
-            </label>
+            <FormControlLabel
+              key={player._id}
+              control={
+                <Checkbox
+                  checked={selectedPlayers.includes(player.name)}
+                  onChange={() => togglePlayer(player.name)}
+                />
+              }
+              label={player.name}
+            />
           ))}
-        </div>
-        <button type="submit">Create Team</button>
-      </form>
+        </FormGroup>
+
+        <Button type="submit" variant="contained">
+          Create Team
+        </Button>
+      </Box>
 
       {/* Navigation Buttons */}
-      <div style={{ marginTop: '2rem' }}>
-        <Link to="/coach">← Back to Coach Dashboard</Link>
-        <br />
-        <button onClick={handleLogout} style={{ marginTop: '1rem' }}>
+      <Box sx={{ mt: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Button component={Link} to="/coach" variant="text">
+          ← Back to Coach Dashboard
+        </Button>
+        <Button onClick={handleLogout} variant="outlined" color="error">
           Logout
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Container>
   );
 }
 
 export default CreateTeamPage;
+
 
 

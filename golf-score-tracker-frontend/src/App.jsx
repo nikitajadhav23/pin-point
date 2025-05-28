@@ -1,5 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Container,
+  Typography,
+  Button,
+  Box
+} from '@mui/material';
 
 function App() {
   const token = localStorage.getItem('token');
@@ -13,15 +19,26 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <h1>Golf Score Tracker</h1>
-      <p>Welcome! Click below to view your dashboard.</p>
-      {isLoggedIn ? (
-        <Link to={getDashboardPath()}>Go to Dashboard</Link>
-      ) : (
-        <Link to="/login">Login</Link>
-      )}
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 10, textAlign: 'center' }}>
+      <Typography variant="h3" gutterBottom>
+        Golf Score Tracker
+      </Typography>
+
+      <Typography variant="body1" sx={{ mb: 4 }}>
+        Welcome! Click below to view your dashboard.
+      </Typography>
+
+      <Box>
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to={getDashboardPath()}
+        >
+          {isLoggedIn ? 'Go to Dashboard' : 'Login'}
+        </Button>
+      </Box>
+    </Container>
   );
 }
 

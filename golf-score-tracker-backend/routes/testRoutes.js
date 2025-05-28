@@ -63,15 +63,17 @@ router.post('/', async (req, res) => {
 
 // POST /api/tests/assign
 router.post('/assign', async (req, res) => {
-  const { name, players } = req.body;
+  const { name, players, dueDate, quantity } = req.body;
 
   try {
     const testsToInsert = players.map(player => ({
       player,
       name,
+      quantity,
       score: '',
       completed: false,
-      dueDate: dueDate ? new Date(dueDate) : undefined
+      dueDate: dueDate ? new Date(dueDate) : undefined,
+      quantity
     }));
 
     await Test.insertMany(testsToInsert);
@@ -82,7 +84,7 @@ router.post('/assign', async (req, res) => {
   }
 });
 router.post('/assign-team', async (req, res) => {
-  const { name, team, dueDate } = req.body; // ✅ Add dueDate here
+  const { name, team, dueDate, quantity } = req.body;   
 
   try {
     const users = await User.find({ team });
@@ -93,9 +95,11 @@ router.post('/assign-team', async (req, res) => {
     const testDocs = users.map(user => ({
       name,
       player: user.name,
+      quantity,
       score: '',
       completed: false,
-      dueDate  
+      dueDate,
+      quantity
     }));
 
     await Test.insertMany(testDocs);

@@ -2,6 +2,18 @@ import React, { useEffect, useState } from 'react';
 import api from '../api';
 import { Link, useNavigate } from 'react-router-dom';
 
+import {
+  Container,
+  Typography,
+  Button,
+  Box,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText
+} from '@mui/material';
+
 function TeamPage() {
   const [teams, setTeams] = useState([]);
   const [allTests, setAllTests] = useState([]);
@@ -29,51 +41,83 @@ function TeamPage() {
   };
 
   return (
-    <div className="container">
-      <h1>All Teams</h1>
-      <Link to="/coach/teams/create">
-        <button style={{ marginBottom: '1rem' }}>➕ Create New Team</button>
-      </Link>
+    <Container sx={{ mt: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        All Teams
+      </Typography>
+
+      <Box sx={{ mb: 3 }}>
+        <Button
+          component={Link}
+          to="/coach/teams/create"
+          variant="contained"
+          startIcon={<span>➕</span>}
+        >
+          Create New Team
+        </Button>
+      </Box>
 
       {teams.map(team => (
-        <div key={team._id} style={{ marginBottom: '2rem' }}>
-          <h3>{team.name}</h3>
-          <p>Players: {team.players.map(p => p.name).join(', ')}</p>
-          {team.players.map(player => {
-            const playerTests = allTests.filter(test => test.player === player.name);
-            return (
-              <div key={player._id} style={{ marginLeft: '1rem' }}>
-                <strong>{player.name}</strong>
-                <ul>
-                  {playerTests.length > 0 ? (
-                    playerTests.map(test => (
-                      <li key={test._id}>
-                        {test.name}: {test.score || 'Not entered'} ({test.completed ? '✔ Completed' : '❌ Incomplete'})
-                        {test.dueDate && <span> — Due: {new Date(test.dueDate).toLocaleDateString()}</span>}
-                      </li>
-                    ))
-                  ) : (
-                    <li>No tests assigned</li>
-                  )}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
+        <Card key={team._id} sx={{ mb: 3 }}>
+          <CardContent>
+            <Typography
+              variant="h6"
+              component={Link}
+              to={`/coach/teams/${team._id}`}
+              sx={{ textDecoration: 'none', color: 'primary.main' }}
+            >
+              {team.name}
+            </Typography>
+
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Players: {team.players.map(p => p.name).join(', ')}
+            </Typography>
+
+            {team.players.map(player => {
+              const playerTests = allTests.filter(test => test.player === player.name);
+              return (
+                <Box key={player._id} sx={{ ml: 2, mb: 2 }}>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    {player.name}
+                  </Typography>
+                  <List dense>
+                    {playerTests.length > 0 ? (
+                      playerTests.map(test => (
+                        <ListItem key={test._id} sx={{ pl: 0 }}>
+                          <ListItemText
+                            primary={`${test.name}: ${test.score || 'Not entered'}`}
+                            secondary={`${test.completed ? '✔ Completed' : '❌ Incomplete'}${
+                              test.dueDate ? ` — Due: ${new Date(test.dueDate).toLocaleDateString()}` : ''
+                            }`}
+                          />
+                        </ListItem>
+                      ))
+                    ) : (
+                      <ListItem>
+                        <ListItemText primary="No tests assigned" />
+                      </ListItem>
+                    )}
+                  </List>
+                </Box>
+              );
+            })}
+          </CardContent>
+        </Card>
       ))}
 
-      <div style={{ marginTop: '1rem' }}>
-        <Link to="/coach">← Back to Coach Dashboard</Link> 
-      </div>
-      <button onClick={handleLogout} style={{ marginTop: '1rem' }}>
-        Logout
-      </button>
-    </div>
+      <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
+        <Button component={Link} to="/coach" variant="text">
+          ← Back to Coach Dashboard
+        </Button>
+        <Button onClick={handleLogout} variant="outlined" color="error">
+          Logout
+        </Button>
+      </Box>
+    </Container>
   );
 }
 
 export default TeamPage;
-
 
 
 
