@@ -1,0 +1,6 @@
+{
+    "buildCommand": "cd golf-score-tracker-frontend && npm install && npm run build",
+    "outputDirectory": "golf-score-tracker-frontend/dist",
+    "framework": null
+  }
+  
