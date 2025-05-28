@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5001/api',
+  baseURL: 'https://pin-point.onrender.com',
   withCredentials: true   
 });
 api.interceptors.request.use((config) => {
