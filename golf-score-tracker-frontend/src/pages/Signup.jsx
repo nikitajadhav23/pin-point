@@ -28,14 +28,13 @@ function Signup() {
     setError('');
 
     try {
-      const res = await api.post('/auth/register', {
-
-
+      const res = await api.post('/api/auth/register', {
         name,
         email,
         password,
         role
       });
+      
 
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('player', res.data.user.name);
