@@ -20,22 +20,23 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+  
     try {
-      await api.post('/api/auth/login', { email, password });
-
-
+      const res = await api.post('/api/auth/login', { email, password });
+      console.log("Login response:", res.data); // optional for debugging
+  
       const role = res.data.user.role;
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('player', res.data.user.name);
       localStorage.setItem('role', role);
-
+  
       navigate(role === 'coach' ? '/coach' : '/dashboard');
     } catch (err) {
       console.error(err);
       setError('Login failed. Please check your credentials.');
     }
   };
+  
 
   return (
     <Container maxWidth="xs" sx={{ mt: 6 }}>
