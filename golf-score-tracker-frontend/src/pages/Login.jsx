@@ -26,6 +26,7 @@ function Login() {
       console.log("Login response:", res.data); // optional for debugging
   
       const role = res.data.user.role;
+      console.log("Role is:", role);  // Add this
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('player', res.data.user.name);
       localStorage.setItem('role', role);
