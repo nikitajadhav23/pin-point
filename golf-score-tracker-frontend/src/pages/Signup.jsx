@@ -28,7 +28,8 @@ function Signup() {
     setError('');
 
     try {
-      const res = await api.post('/api/auth/register', {
+      const res = await api.post('/auth/register', {
+
 
         name,
         email,
