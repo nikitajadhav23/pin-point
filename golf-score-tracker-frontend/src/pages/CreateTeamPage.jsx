@@ -47,7 +47,7 @@ function CreateTeamPage() {
     }
 
     try {
-      await api.post('/teams', {
+      await api.post('/api/teams', {
         name: teamName,
         players: selectedPlayers,
       });

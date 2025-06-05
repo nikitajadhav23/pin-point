@@ -25,8 +25,8 @@ function TeamDetailPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teamRes = await api.get(`/teams/${id}/details`);
-        const testsRes = await api.get('/tests/all');
+        const teamRes = await api.get(`/api/teams/${id}/details`);
+        const testsRes = await api.get('/api/tests/all');
         setTeam(teamRes.data);
         setAllTests(testsRes.data);
       } catch (err) {

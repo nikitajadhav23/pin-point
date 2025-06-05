@@ -23,8 +23,8 @@ function TeamPage() {
     const fetchData = async () => {
       try {
         const [teamsRes, testsRes] = await Promise.all([
-          api.get('/teams'),
-          api.get('/tests/all')
+          api.get('/api/teams'),
+          api.get('/api/tests/all')
         ]);
         setTeams(teamsRes.data);
         setAllTests(testsRes.data);
