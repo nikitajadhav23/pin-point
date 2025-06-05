@@ -33,9 +33,9 @@ function TestPage() {
       try {
         const playersRes = await api.get('/api/users/players');
         setAllPlayers(playersRes.data);
-        const teamsRes = await api.get('/teams');
+        const teamsRes = await api.get('/api/teams');
         setTeams(teamsRes.data);
-        const testsRes = await api.get('/tests/all');
+        const testsRes = await api.get('/api/tests/all');
         setAllTests(testsRes.data);
       } catch (err) {
         console.error('Error loading data:', err);
@@ -62,7 +62,7 @@ function TestPage() {
       await api.post('/api/tests/assign', { name: testName, players: selectedPlayers, dueDate, quantity });
       setTestName('');
       setSelectedPlayers([]);
-      const res = await api.get('/tests/all');
+      const res = await api.get('/api/tests/all');
       setAllTests(res.data);
     } catch (err) {
       console.error('Error assigning to players:', err);
@@ -76,7 +76,7 @@ function TestPage() {
       await api.post('/api/tests/assign-team', { name: testName, team: teamName, dueDate, quantity });
       setTestName('');
       setTeamName('');
-      const res = await api.get('/tests/all');
+      const res = await api.get('/api/tests/all');
       setAllTests(res.data);
     } catch (err) {
       console.error('Error assigning to team:', err);
