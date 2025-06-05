@@ -31,7 +31,7 @@ function TestPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const playersRes = await api.get('/users/players');
+        const playersRes = await api.get('/api/users/players');
         setAllPlayers(playersRes.data);
         const teamsRes = await api.get('/teams');
         setTeams(teamsRes.data);

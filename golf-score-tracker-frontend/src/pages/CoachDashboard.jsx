@@ -12,7 +12,7 @@ function CoachDashboard() {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const res = await api.get('/users/players');
+        const res = await api.get('/api/users/players');
         setAllPlayers(res.data);
       } catch (err) {
         console.error('Error fetching players:', err);
