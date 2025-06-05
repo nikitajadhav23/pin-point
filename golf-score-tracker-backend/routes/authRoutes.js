@@ -38,31 +38,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 });
-// POST /api/tests/assign
-router.post('/assign', async (req, res) => {
-  const { name, players } = req.body;
-  try {
-    const newTests = players.map(player => ({
-      name,
-      player,
-      score: '',
-      completed: false
-    }));
-    await Test.insertMany(newTests);
-    res.status(201).json({ message: 'Tests assigned successfully' });
-  } catch (err) {
-    res.status(500).json({ message: 'Error assigning tests' });
-  }
-});
 
-// GET /api/users/players
-router.get('/players', async (req, res) => {
-  try {
-    const players = await User.find({ role: 'player' }, 'name email');
-    res.json(players);
-  } catch (err) {
-    res.status(500).json({ message: 'Error fetching players' });
-  }
-});
 
 module.exports = router;

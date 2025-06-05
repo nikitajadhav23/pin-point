@@ -1,31 +1,30 @@
-// routes/testRoutes.js
 const express = require('express');
 const router = express.Router();
 const Test = require('../models/Test');
 const User = require('../models/User');
 
+// GET /api/tests/all - Fetch all tests (Coach View)
 router.get('/all', async (req, res) => {
   try {
-    const tests = await Test.find(); // returns all tests
+    const tests = await Test.find();
     res.json(tests);
   } catch (err) {
     res.status(500).json({ msg: 'Server error' });
   }
 });
- 
+
+// GET /api/tests?player=NAME - Fetch tests for a specific player
 router.get('/', async (req, res) => {
   try {
-    const player = req.query.player;
+    const { player } = req.query;
     const tests = await Test.find({ player });
-    res.json(tests); // <-- THIS is important
+    res.json(tests);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-// GET all players and their tests (Coach View)
 
-
-// PUT /api/tests/:id
+// PUT /api/tests/:id - Update a test's score/completion status
 router.put('/:id', async (req, res) => {
   try {
     const updated = await Test.findByIdAndUpdate(
@@ -43,7 +42,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// POST /api/tests
+// POST /api/tests - Assign a single test to a player
 router.post('/', async (req, res) => {
   const { player, name } = req.body;
 
@@ -61,7 +60,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// POST /api/tests/assign
+// POST /api/tests/assign - Assign test to multiple players
 router.post('/assign', async (req, res) => {
   const { name, players, dueDate, quantity } = req.body;
 
@@ -72,19 +71,20 @@ router.post('/assign', async (req, res) => {
       quantity,
       score: '',
       completed: false,
-      dueDate: dueDate ? new Date(dueDate) : undefined,
-      quantity
+      dueDate: dueDate ? new Date(dueDate) : undefined
     }));
 
     await Test.insertMany(testsToInsert);
-    res.json({ message: 'Tests assigned successfully' });
+    res.status(201).json({ message: 'Tests assigned successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to assign tests' });
   }
 });
+
+// POST /api/tests/assign-team - Assign test to all players in a team
 router.post('/assign-team', async (req, res) => {
-  const { name, team, dueDate, quantity } = req.body;   
+  const { name, team, dueDate, quantity } = req.body;
 
   try {
     const users = await User.find({ team });
@@ -98,8 +98,7 @@ router.post('/assign-team', async (req, res) => {
       quantity,
       score: '',
       completed: false,
-      dueDate,
-      quantity
+      dueDate: dueDate ? new Date(dueDate) : undefined
     }));
 
     await Test.insertMany(testDocs);
@@ -109,9 +108,6 @@ router.post('/assign-team', async (req, res) => {
     res.status(500).json({ msg: 'Error assigning test to team' });
   }
 });
-
-
-
 
 module.exports = router;
 
