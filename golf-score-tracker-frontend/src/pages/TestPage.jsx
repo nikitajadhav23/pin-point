@@ -59,7 +59,7 @@ function TestPage() {
     e.preventDefault();
     if (!testName || selectedPlayers.length === 0) return;
     try {
-      await api.post('/tests/assign', { name: testName, players: selectedPlayers, dueDate, quantity });
+      await api.post('/api/tests/assign', { name: testName, players: selectedPlayers, dueDate, quantity });
       setTestName('');
       setSelectedPlayers([]);
       const res = await api.get('/tests/all');
@@ -73,7 +73,7 @@ function TestPage() {
     e.preventDefault();
     if (!testName || !teamName) return;
     try {
-      await api.post('/tests/assign-team', { name: testName, team: teamName, dueDate, quantity });
+      await api.post('/api/tests/assign-team', { name: testName, team: teamName, dueDate, quantity });
       setTestName('');
       setTeamName('');
       const res = await api.get('/tests/all');
