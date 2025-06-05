@@ -20,7 +20,7 @@ function Dashboard() {
 
     const fetchTests = async () => {
       try {
-        const res = await api.get(`/tests?player=${playerName}`);
+        const res = await api.get(`/api/tests?player=${playerName}`);
         setTests(res.data);
       } catch (err) {
         console.error('Error fetching tests:', err);
@@ -39,7 +39,7 @@ function Dashboard() {
     setTests(updatedTests);
 
     try {
-      await api.put(`/tests/${id}`, { score: newScores, completed });
+      await api.put(`/api/tests/${id}`, { score: newScores, completed });
     } catch (err) {
       console.error('Error updating score:', err);
     }

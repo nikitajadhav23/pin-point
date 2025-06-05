@@ -21,7 +21,7 @@ function CoachDashboard() {
 
     const fetchAllTests = async () => {
       try {
-        const res = await api.get('/tests/all');
+        const res = await api.get('/api/tests/all');
         setAllTests(res.data);
       } catch (err) {
         console.error('Error fetching tests:', err);
@@ -30,7 +30,7 @@ function CoachDashboard() {
 
     const fetchTeams = async () => {
       try {
-        const res = await api.get('/teams');
+        const res = await api.get('/api/teams');
         setTeams(res.data);
       } catch (err) {
         console.error('Error fetching teams:', err);
